@@ -10,6 +10,8 @@ import {
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import { AuthService } from './auth.service'
+import { RefreshTokenDto } from './dto/refresh-token.dto'
+import { Auth } from './decorators/auth.decorator'
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +22,14 @@ export class AuthController {
 	@Post('login')
 	async login(@Body() dto: LoginDto) {
 		return this.AuthService.login(dto)
+	}
+
+	@UsePipes(new ValidationPipe())
+	@HttpCode(200)
+	@Post('login/access-token')
+	@Auth()
+	async getNewTokens(@Body() dto: RefreshTokenDto) {
+		return this.AuthService.getNewTokens(dto.refreshToken)
 	}
 
 	@UsePipes(new ValidationPipe())

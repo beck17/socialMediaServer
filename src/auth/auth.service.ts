@@ -6,11 +6,11 @@ import {
 import { InjectModel } from 'nestjs-typegoose'
 import { ModelType } from '@typegoose/typegoose/lib/types'
 import { JwtService } from '@nestjs/jwt'
+import { compare, genSalt, hash } from 'bcryptjs'
 
 import { UserModel } from '../user/user.model'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
-import { compare, genSalt, hash } from 'bcryptjs'
 
 @Injectable()
 export class AuthService {
@@ -19,6 +19,20 @@ export class AuthService {
 		private readonly UserModel: ModelType<UserModel>,
 		private readonly JwtService: JwtService,
 	) {}
+
+	async getNewTokens(refreshToken: string) {
+		const result = this.JwtService.verify(refreshToken)
+		if (!result) throw new UnauthorizedException('Не валидный токен')
+
+		const user = await this.UserModel.findOne({ _id: result._id })
+
+		const tokens = await this.issueTokenPair(String(user._id))
+
+		return {
+			user: this.returnUserFields(user),
+			...tokens,
+		}
+	}
 
 	async register(dto: RegisterDto) {
 		const candidate = await this.UserModel.findOne({
@@ -43,11 +57,11 @@ export class AuthService {
 	async login(dto: LoginDto) {
 		const user = await this.validateUser(dto) // Валидирование
 
-		const token = await this.issueTokenPair(String(user._id)) // Генерация токена
+		const tokens = await this.issueTokenPair(String(user._id)) // Генерация токена
 
 		return {
 			user: this.returnUserFields(user),
-			...token,
+			...tokens,
 		}
 	}
 
@@ -62,7 +76,7 @@ export class AuthService {
 		return user
 	}
 
-	// Генерация токена
+	// Генерация токенов
 	async issueTokenPair(_id: string) {
 		const data = { _id }
 
@@ -85,5 +99,9 @@ export class AuthService {
 			lastName: user.lastName,
 			phoneNumber: user.phoneNumber,
 		}
+	}
+
+	async validate(id) {
+		return this.UserModel.findOne({ _id: id })
 	}
 }

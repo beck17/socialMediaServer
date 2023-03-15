@@ -4,15 +4,15 @@ import { prop } from '@typegoose/typegoose'
 export interface UserModel extends Base {}
 
 export class UserModel extends TimeStamps {
-	@prop({ unique: true, required: true })
+	@prop({ unique: true })
 	phoneNumber: number
 
-	@prop({ required: true })
+	@prop()
 	firstName: string
 
-	@prop({ required: true })
+	@prop()
 	lastName: string
 
-	@prop({ required: true })
+	@prop()
 	password: string
 }

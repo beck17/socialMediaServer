@@ -10,6 +10,7 @@ import { PostModule } from './post/post.module';
 import { PostCommentsModule } from './post-comments/post-comments.module';
 import { PostLikesModule } from './post-likes/post-likes.module';
 import { MessageModule } from './message/message.module';
+import { UserModule } from './user/user.module';
 
 @Module({
 	imports: [
@@ -24,6 +25,7 @@ import { MessageModule } from './message/message.module';
 		PostCommentsModule,
 		PostLikesModule,
 		MessageModule,
+		UserModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
