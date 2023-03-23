@@ -15,5 +15,6 @@ import { PostModel } from './post.model'
 	],
 	controllers: [PostController],
 	providers: [PostService],
+	exports: [PostService],
 })
 export class PostModule {}

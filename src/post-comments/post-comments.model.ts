@@ -13,5 +13,5 @@ export class PostCommentsModel extends TimeStamps {
 	postId: Ref<PostModel>
 
 	@prop({ ref: () => UserModel })
-	userId: Ref<UserModel>
+	user: Ref<UserModel>
 }

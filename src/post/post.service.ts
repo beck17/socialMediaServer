@@ -13,7 +13,10 @@ export class PostService {
 	) {}
 
 	async getAllPosts() {
-		return this.PostModel.find().sort({ created_at: 'desc' }).exec()
+		return this.PostModel.find()
+			.sort({ created_at: 'desc' })
+			.populate('user', 'firstName lastName avatar')
+			.exec()
 	}
 
 	async getPostByUserId(postId: Types.ObjectId) {
@@ -22,7 +25,7 @@ export class PostService {
 
 	async createPost(userId: Types.ObjectId, dto: PostDto) {
 		return this.PostModel.create({
-			userId,
+			user: userId,
 			text: dto.text,
 			image: dto.image,
 		})
@@ -38,6 +41,22 @@ export class PostService {
 		return this.PostModel.findByIdAndUpdate(postId, {
 			text: dto.text,
 			image: dto.image,
+		})
+	}
+
+	async pushComment(postId, commentId) {
+		return this.PostModel.findByIdAndUpdate(postId, {
+			$push: {
+				comments: commentId,
+			},
+		})
+	}
+
+	async pullComment(postId, commentId) {
+		return this.PostModel.findByIdAndUpdate(postId, {
+			$pull: {
+				comments: commentId,
+			},
 		})
 	}
 }

@@ -7,8 +7,8 @@ export interface PostLikeModel extends Base {}
 
 export class PostLikeModel extends TimeStamps {
 	@prop({ ref: () => PostModel })
-	postId: Ref<PostModel>
+	post: Ref<PostModel>
 
 	@prop({ ref: () => UserModel })
-	userId: Ref<UserModel>
+	user: Ref<UserModel>
 }

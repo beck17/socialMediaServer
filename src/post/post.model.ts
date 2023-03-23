@@ -13,7 +13,7 @@ export class PostModel extends TimeStamps {
 	image?: string
 
 	@prop({ ref: () => UserModel })
-	userId: Ref<UserModel>
+	user: Ref<UserModel>
 
 	@prop({ default: [], ref: () => PostCommentsModel })
 	comments: Ref<UserModel>[]

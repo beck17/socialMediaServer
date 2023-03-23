@@ -11,3 +11,5 @@ async function start() {
 }
 
 start()
+
+// TODO: сделать сервис по медиа файлам

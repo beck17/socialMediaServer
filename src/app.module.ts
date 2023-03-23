@@ -6,11 +6,12 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { getMongoConfig } from './config/mogno.config'
 import { AuthModule } from './auth/auth.module'
-import { PostModule } from './post/post.module';
-import { PostCommentsModule } from './post-comments/post-comments.module';
-import { PostLikesModule } from './post-likes/post-likes.module';
-import { MessageModule } from './message/message.module';
-import { UserModule } from './user/user.module';
+import { PostModule } from './post/post.module'
+import { PostCommentsModule } from './post-comments/post-comments.module'
+import { PostLikesModule } from './post-likes/post-likes.module'
+import { MessageModule } from './message/message.module'
+import { UserModule } from './user/user.module'
+import { ConversationModule } from './conversation/conversation.module'
 
 @Module({
 	imports: [
@@ -26,6 +27,7 @@ import { UserModule } from './user/user.module';
 		PostLikesModule,
 		MessageModule,
 		UserModule,
+		ConversationModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
